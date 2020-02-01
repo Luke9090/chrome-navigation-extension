@@ -1,0 +1,20 @@
+{
+  "name": "Chrome navigation extension",
+  "version": "0.1",
+  "description": "A simple extension to aid with repetitive navigation to multiple paths across multiple hostnames",
+  "permissions": ["storage"],
+  "browser_action": {
+    "default_popup": "popup.html"
+  },
+  "commands": {
+    "_execute_browser_action": {
+      "suggested_key": {
+        "windows": "Ctrl+B",
+        "mac": "Command+B",
+        "chromeos": "Ctrl+B",
+        "linux": "Ctrl+B"
+      }
+    }
+  },
+  "manifest_version": 2
+}
