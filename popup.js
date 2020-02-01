@@ -1,5 +1,11 @@
 window.onload = function() {
   let hostBox = document.getElementById('hostSelect');
+  chrome.storage.sync.get(['selectedHost'], function(result) {
+    if (result.selectedHost) {
+      hostBox.selectedIndex = result.selectedHost;
+      changeHost(result.selectedHost);
+    }
+  });
   hostBox.addEventListener('change', e => {
     console.dir(e);
     changeHost(e.target.selectedIndex);
@@ -22,6 +28,7 @@ document.addEventListener('keydown', e => {
 
 function changeHost(newHost) {
   let hostBox = document.getElementById('hostSelect');
+  chrome.storage.sync.set({ selectedHost: newHost }, () => {});
   let newHostName = hostBox.children[newHost].value;
   let pathLinks = document.getElementsByClassName('pathLink');
   for (let i = 0; i < pathLinks.length; i++) {
