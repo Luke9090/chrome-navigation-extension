@@ -1,5 +1,5 @@
 {
-  "name": "Chrome navigation extension",
+  "name": "Host-Path Navigator",
   "version": "1.0",
   "description": "A simple extension to aid with repetitive navigation to multiple paths across multiple hostnames",
   "permissions": [
