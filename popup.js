@@ -7,7 +7,6 @@ window.onload = function() {
     }
   });
   hostBox.addEventListener('change', e => {
-    console.dir(e);
     changeHost(e.target.selectedIndex);
   });
 };
@@ -37,3 +36,11 @@ function changeHost(newHost) {
     pathLinks[i].href = newHostName + currPath;
   }
 }
+
+document.querySelector('#settingsLink').addEventListener('click', function() {
+  if (chrome.runtime.openOptionsPage) {
+    chrome.runtime.openOptionsPage();
+  } else {
+    window.open(chrome.runtime.getURL('options.html'));
+  }
+});
