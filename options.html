@@ -50,6 +50,14 @@
       />&nbsp/
       <button id="newRegexButton">Add regex</button>
     </form>
+    <h2>Import/Export</h2>
+    <p>
+      Export current settings to JSON file or import settings from a JSON file. Imported settings overwrite existing settings. If in doubt, export your existing
+      settings first so that you can get them back.
+    </p>
+    <button id="export">Export to JSON</button>
+    <button id="importButton">Import from JSON</button>
+    <input type="file" id="importChooser" accept=".json" style="display:none" />
 
     <script src="options.js"></script>
   </body>

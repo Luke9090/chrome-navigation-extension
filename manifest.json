@@ -2,7 +2,7 @@
   "name": "Chrome navigation extension",
   "version": "0.1",
   "description": "A simple extension to aid with repetitive navigation to multiple paths across multiple hostnames",
-  "permissions": ["storage"],
+  "permissions": ["storage", "tabs", "downloads"],
   "browser_action": {
     "default_popup": "popup.html"
   },

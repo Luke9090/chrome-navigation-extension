@@ -14,6 +14,12 @@ window.onload = function() {
       button.addEventListener('click', deleteItem);
     });
   });
+  const importChooser = document.getElementById('importChooser');
+  importChooser.addEventListener('change', readFile);
+
+  document.getElementById('importButton').addEventListener('click', () => {
+    importChooser.click();
+  });
 };
 
 document.querySelector('#newPathForm').addEventListener('submit', function(e) {
@@ -128,4 +134,26 @@ deleteItem = function(e) {
   });
 };
 
-// Functions for rearranging paths and hosts
+document.getElementById('export').addEventListener('click', () => {
+  chrome.storage.sync.get(['paths', 'hosts', 'regexes'], results => {
+    chrome.downloads.download({
+      url: 'data:application/json;base64,' + btoa(JSON.stringify(results)),
+      filename: 'host-path-nav_exported-settings.json',
+      saveAs: true
+    });
+  });
+});
+
+readFile = function(e) {
+  const files = e.target.files;
+  const reader = new FileReader();
+  reader.onload = importSettings;
+  reader.readAsText(files[0]);
+};
+
+importSettings = function() {
+  const newSettings = JSON.parse(this.result);
+  chrome.storage.sync.set(newSettings, () => {
+    location.reload();
+  });
+};
