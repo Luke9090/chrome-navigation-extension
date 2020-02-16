@@ -12,13 +12,19 @@
         display: block;
         margin-top: 0.2em;
       }
+      button {
+        display: block;
+        margin-top: 0.2em;
+      }
     </style>
   </head>
 
   <body>
     <select id="hostSelect">
-      <option value="http://example">a: example</option>
+      <option>a: example</option>
     </select>
+    <section id="paths"></section>
+    <button id="0">0: Path from current tab</button>
     <a href="http://host/example/path" target="_blank" class="pathLink">1: Example Path</a>
 
     <button id="settingsLink">Settings</button>

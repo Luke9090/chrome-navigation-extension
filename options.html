@@ -2,6 +2,23 @@
 <html>
   <head>
     <title>Host-Path Navigator Settings</title>
+    <style>
+      body {
+        margin-left: 3em;
+      }
+      .delete {
+        background-color: rgba(255, 30, 30, 0.267);
+        border: none;
+        color: black;
+        padding: 2px 3px;
+        font-size: 10px;
+        font-weight: bold;
+      }
+      .delete:hover {
+        background-color: rgba(255, 30, 30, 0.856);
+        font-weight: bolder;
+      }
+    </style>
   </head>
 
   <body>
@@ -13,12 +30,25 @@
       <input type="text" id="newHostName" placeholder="New host" />
       <button id="newHostButton">Add host</button>
     </form>
+
     <h2>Edit available paths</h2>
     <section id="paths"></section>
     <form id="newPathForm">
       <input type="text" id="newPathId" placeholder="Display name for new path" />
       <input type="text" id="newPathName" placeholder="New path" />
       <button id="newPathButton">Add path</button>
+    </form>
+
+    <h2>Path editing regexes</h2>
+    <p>Applied to path before switching host to currently selected host when '0' key is pressed</p>
+    <section id="regexes"></section>
+    <form id="newRegexForm">
+      /&nbsp<input type="text" id="newRegexId" placeholder="If path matches this regex" />&nbsp/&nbsp&nbsp&nbsp/&nbsp<input
+        type="text"
+        id="newRegexName"
+        placeholder="Remove matches to this regex"
+      />&nbsp/
+      <button id="newRegexButton">Add regex</button>
     </form>
 
     <script src="options.js"></script>
