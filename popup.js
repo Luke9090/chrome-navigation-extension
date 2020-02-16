@@ -72,3 +72,21 @@ writeHostOnScreen = function({ name, id }) {
   oTag.appendChild(text);
   section.appendChild(oTag);
 };
+
+document.getElementById('0').addEventListener('click', switchHostOfCurrUrl);
+
+function switchHostOfCurrUrl() {
+  chrome.tabs.query({ active: true, lastFocusedWindow: true }, tabs => {
+    let currUrl = tabs[0].url;
+    chrome.storage.sync.get(['regexes', 'hosts', 'selectedHost'], ({ regexes, hosts, selectedHost }) => {
+      regexes.forEach(regexPair => {
+        const matcher = new RegExp(regexPair.id);
+        const deleter = new RegExp(regexPair.name, 'g');
+        if (matcher.test(currUrl)) currUrl = currUrl.replace(deleter, '');
+      });
+      const hostFinder = /(?<=^https?:\/\/)[a-z0-9.-]*(?=\/|:)/i;
+      const newUrl = currUrl.replace(hostFinder, hosts[selectedHost - 1].name);
+      window.open(newUrl, 'blank');
+    });
+  });
+}
