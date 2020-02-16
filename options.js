@@ -44,7 +44,6 @@ writePathOnScreen = function({ name, id }) {
   pTag.appendChild(text);
   pTag.appendChild(createDeleteButton());
   pTag.setAttribute('class', 'path');
-  pTag.addEventListener('click', deleteItem);
   section.appendChild(pTag);
 };
 
@@ -76,7 +75,6 @@ writeHostOnScreen = function({ name, id }) {
   pTag.appendChild(text);
   pTag.appendChild(createDeleteButton());
   pTag.setAttribute('class', 'host');
-  pTag.addEventListener('click', deleteItem);
   section.appendChild(pTag);
 };
 
@@ -101,12 +99,11 @@ document.querySelector('#newRegexForm').addEventListener('submit', function(e) {
 
 writeRegexOnScreen = function({ name, id }) {
   const section = document.getElementById('regexes');
-  const text = document.createTextNode(`/${id}/, /${name}/ `);
+  const text = document.createTextNode(`/${id}/ - /${name}/ `);
   const pTag = document.createElement('P');
   pTag.appendChild(text);
   pTag.appendChild(createDeleteButton());
   pTag.setAttribute('class', 'regex');
-  pTag.addEventListener('click', deleteItem);
   section.appendChild(pTag);
 };
 
@@ -115,6 +112,7 @@ createDeleteButton = function() {
   const deleteText = document.createTextNode(`x`);
   deleteButton.appendChild(deleteText);
   deleteButton.setAttribute('class', 'delete');
+  deleteButton.addEventListener('click', deleteItem);
   return deleteButton;
 };
 
@@ -131,5 +129,3 @@ deleteItem = function(e) {
 };
 
 // Functions for rearranging paths and hosts
-
-// Functions for deleting paths and hosts

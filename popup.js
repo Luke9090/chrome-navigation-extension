@@ -1,40 +1,38 @@
 window.onload = function() {
-  let hostBox = document.getElementById('hostSelect');
-  chrome.storage.sync.get(['selectedHost'], function(result) {
-    if (result.selectedHost) {
-      hostBox.selectedIndex = result.selectedHost;
-      changeHost(result.selectedHost);
+  chrome.storage.sync.get(['paths', 'hosts'], function({ paths, hosts }) {
+    if (Array.isArray(paths)) {
+      paths.forEach(writePathOnScreen);
     }
-  });
-  hostBox.addEventListener('change', e => {
-    changeHost(e.target.selectedIndex);
+    if (Array.isArray(hosts)) {
+      hosts.forEach(writeHostOnScreen);
+    }
+    const hostBox = document.getElementById('hostSelect');
+    chrome.storage.sync.get(['selectedHost'], function({ selectedHost }) {
+      if (selectedHost > hosts.length || selectedHost < 1) selectedHost = 1;
+      hostBox.selectedIndex = selectedHost - 1;
+    });
+    hostBox.addEventListener('change', e => {
+      changeHost(e.target.selectedIndex + 1);
+    });
   });
 };
 
 document.addEventListener('keydown', e => {
-  let hostBox = document.getElementById('hostSelect');
+  const hostBox = document.getElementById('hostSelect');
   if (e.keyCode >= 65 && e.keyCode <= 90) {
-    let newHost = e.keyCode - 65;
-    hostBox.selectedIndex = newHost;
+    const newHost = e.keyCode - 64;
+    hostBox.selectedIndex = newHost - 1;
     changeHost(newHost);
   } else if (e.keyCode >= 49 && e.keyCode <= 57) {
-    let pathLinks = document.getElementsByClassName('pathLink');
-    let linkIndex = e.keyCode - 49;
-    let url = pathLinks[linkIndex].href;
-    window.open(url, 'blank');
+    const pathIndex = e.keyCode - 48;
+    launchPath(pathIndex);
+  } else if ((e.keyCode = 48)) {
+    switchHostOfCurrUrl();
   }
 });
 
 function changeHost(newHost) {
-  let hostBox = document.getElementById('hostSelect');
   chrome.storage.sync.set({ selectedHost: newHost }, () => {});
-  let newHostName = hostBox.children[newHost].value;
-  let pathLinks = document.getElementsByClassName('pathLink');
-  for (let i = 0; i < pathLinks.length; i++) {
-    let currHref = pathLinks[i].href;
-    let currPath = new URL(currHref).pathname;
-    pathLinks[i].href = newHostName + currPath;
-  }
 }
 
 document.querySelector('#settingsLink').addEventListener('click', function() {
@@ -44,3 +42,33 @@ document.querySelector('#settingsLink').addEventListener('click', function() {
     window.open(chrome.runtime.getURL('options.html'));
   }
 });
+
+launchPath = function(pathIndex) {
+  chrome.storage.sync.get(['selectedHost', 'paths', 'hosts'], function({ selectedHost, paths, hosts }) {
+    const url = `http://${hosts[selectedHost - 1].name}${paths[pathIndex - 1].name}`;
+    window.open(url, 'blank');
+  });
+};
+
+writePathOnScreen = function({ name, id }) {
+  const section = document.getElementById('paths');
+  const index = section.childElementCount + 1;
+  const prefix = index <= 9 ? index + ': ' : '-: ';
+  const text = document.createTextNode(`${prefix}${id}`);
+  const bTag = document.createElement('BUTTON');
+  bTag.appendChild(text);
+  bTag.addEventListener('click', () => {
+    launchPath(index);
+  });
+  section.appendChild(bTag);
+};
+
+writeHostOnScreen = function({ name, id }) {
+  const section = document.getElementById('hostSelect');
+  const index = section.childElementCount + 1;
+  const prefix = index <= 26 ? String.fromCharCode(index + 96) + ': ' : '-: ';
+  const text = document.createTextNode(`${prefix}${id}`);
+  const oTag = document.createElement('OPTION');
+  oTag.appendChild(text);
+  section.appendChild(oTag);
+};
