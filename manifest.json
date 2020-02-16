@@ -1,6 +1,6 @@
 {
   "name": "Host-Path Navigator",
-  "version": "1.0",
+  "version": "1.0.1",
   "description": "A simple extension to aid with repetitive navigation to multiple paths across multiple hostnames",
   "permissions": [
     "storage",

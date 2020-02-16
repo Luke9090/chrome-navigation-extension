@@ -26,7 +26,7 @@ document.addEventListener('keydown', e => {
   } else if (e.keyCode >= 49 && e.keyCode <= 57) {
     const pathIndex = e.keyCode - 48;
     launchPath(pathIndex);
-  } else if ((e.keyCode = 48)) {
+  } else if (e.keyCode == 48) {
     switchHostOfCurrUrl();
   }
 });
